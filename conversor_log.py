@@ -40,7 +40,7 @@ def weeksecondstoutc(gpsweek,gpsseconds):
 
 def state_check ():
         check= var1.get()
-        # print (check)
+        print (check)
 
 
 
