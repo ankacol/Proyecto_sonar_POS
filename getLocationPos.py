@@ -90,8 +90,6 @@ def get_pos(ruta_archivo_pos, check):
 def data_process(buffer, buffer2 ,fsuperpos ):
     
     sign = "-"
-    sign2 = "+"
-    sign3 = "+"
 
     secondsA = buffer[17:19]
     coordinatesA = buffer[25:38]
@@ -109,20 +107,6 @@ def data_process(buffer, buffer2 ,fsuperpos ):
     coordinatesB1 = str(eval("(" + coordinatesA1 + "-" + coordinatesB1 + ")/4"))
     altitudB = str(eval("(" + altitudA + "-" + altitudB + ")/4"))
 
-
-    # if float(coordinatesB ) > 0:
-    #     sign = "-"
-    # else:
-    #     sign = "+"
-    # # time.sleep(3)
-    # if float(coordinatesB1) > 0:
-    #     sign2 = "-"
-    # else:
-    #     sign2 = "+"
-    # if float (altitudB) > 0:
-    #     sign3 = "-"
-    # else:
-    #     sign3 = "+"
 
     for i in  [0.251, 0.251, 0.251]:
         secondsA = float(secondsA)+i
