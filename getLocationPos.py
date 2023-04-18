@@ -88,45 +88,64 @@ def get_pos(ruta_archivo_pos, check):
 
 
 def data_process(buffer, buffer2 ,fsuperpos ):
+    
+    sign = "-"
+    sign2 = "+"
+    sign3 = "+"
+
     secondsA = buffer[17:19]
-    # print(secondsA)
     coordinatesA = buffer[25:38]
     coordinatesA1 = buffer[40:53]
     altitudA = buffer[56:64]
 
     secondsB = buffer2[17:19]
-    # print(secondsB)
     coordinatesB = buffer2[25:38]
     coordinatesB1= buffer2[40:53]
     altitudB = buffer2[56:64]
     
     fsuperpos.write(buffer)
-    for i in  [0.251, 0.501, 0.753]:
-        secondsA = int(secondsA)+i
+
+    coordinatesB = str(eval("(" + coordinatesA + "-" + coordinatesB + ")/4"))
+    coordinatesB1 = str(eval("(" + coordinatesA1 + "-" + coordinatesB1 + ")/4"))
+    altitudB = str(eval("(" + altitudA + "-" + altitudB + ")/4"))
+
+
+    # if float(coordinatesB ) > 0:
+    #     sign = "-"
+    # else:
+    #     sign = "+"
+    # # time.sleep(3)
+    # if float(coordinatesB1) > 0:
+    #     sign2 = "-"
+    # else:
+    #     sign2 = "+"
+    # if float (altitudB) > 0:
+    #     sign3 = "-"
+    # else:
+    #     sign3 = "+"
+
+    for i in  [0.251, 0.251, 0.251]:
+        secondsA = float(secondsA)+i
         secondsB = str(secondsA)
         #si la longitud de los segundos es menor a 5 digitos se agrega un 0 para que guarde de manera correcta en el pos   NO 5.12 SI 05.12
         if len(secondsB) <= 5:
             secondsB = "0"+secondsB
 
-        coordinatesB = str(eval("(" + coordinatesA + "-" + coordinatesB + ")/4"))
-        if float(coordinatesB ) > 0:
-            coordinatesA = str(eval(buffer[25:38] + "-" + coordinatesB ))
+        coordinatesA = str(eval(coordinatesA + sign + "(" + coordinatesB + ")"))
+        coordinatesA1 = str(eval( coordinatesA1 + sign + "(" + coordinatesB1 + ")"))
+        altitudA = str(eval(altitudA + sign + "(" + altitudB + ")"))
 
-        else:
-            coordinatesA = str(eval(coordinatesA + "+" + coordinatesB ))
-        # time.sleep(3)
-        coordinatesB1 = str(eval("(" + coordinatesA1 + "+" + coordinatesB1 + ")/4"))
-        if float(coordinatesB1) > 0:
-            coordinatesA1 = str(eval( coordinatesA1 + "-" + coordinatesB1 ))
-        else:
-            coordinatesA1 = str(eval( coordinatesA1 + "+" + coordinatesB1 ))
-
-        
-        altitudB = str(eval("(" + altitudA + "+" + altitudB + ")/2"))
         # buffer_gtm[i] = buffer
         # print(buffer[0:17] + secondsB[0:2] + "." + secondsB[3:6] + buffer[23:25] + coordinatesB[0:13] + "  " + coordinatesB1[0:13] + "   " + altitudB[0:8] + buffer[64:142])
+        # time.sleep(1)
+        if secondsB[1] == ".":
+            secondsB.replace(secondsB[1], secondsB[0])
+            secondsB = "0"+secondsB
+        fsuperpos.write(buffer[0:17] + secondsB[0:2] + "." + secondsB[3:6] + buffer[23:25] + coordinatesA[0:13] + "  " + coordinatesA1[0:13] + "   " + altitudA[0:8] + buffer[64:142])
 
-        fsuperpos.write(buffer[0:17] + secondsB[0:2] + "." + secondsB[3:6] + buffer[23:25] + coordinatesA[0:13] + "  " + coordinatesA1[0:13] + "   " + altitudB[0:8] + buffer[64:142])
-
+        secondsA = secondsB
+        coordinatesA = coordinatesA
+        coordinatesA1 = coordinatesA1
+        altitudA = altitudA
 # fsuperpos.write(buffer2)
     
