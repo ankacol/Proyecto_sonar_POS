@@ -3,6 +3,7 @@ import os
 from tkinter.constants import N
 import os.path as path
 import time
+import random
 
 timeStampPos = []
 nLocations = 0
@@ -90,6 +91,8 @@ def get_pos(ruta_archivo_pos, check):
 def data_process(buffer, buffer2 ,fsuperpos ):
     
     sign = "-"
+    sign2 = "+"
+
 
     secondsA = buffer[17:19]
     coordinatesA = buffer[25:38]
@@ -99,7 +102,7 @@ def data_process(buffer, buffer2 ,fsuperpos ):
     secondsB = buffer2[17:19]
     coordinatesB = buffer2[25:38]
     coordinatesB1= buffer2[40:53]
-    altitudB = buffer2[56:64]
+    altitudB = altitudC = buffer2[56:64]
     
     fsuperpos.write(buffer)
 
@@ -107,17 +110,25 @@ def data_process(buffer, buffer2 ,fsuperpos ):
     coordinatesB1 = str(eval("(" + coordinatesA1 + "-" + coordinatesB1 + ")/4"))
     altitudB = str(eval("(" + altitudA + "-" + altitudB + ")/4"))
 
+    if float(altitudB) > 0:
+        sign2 = "-"
+    else:
+        sign2 = "+"
 
-    for i in  [0.251, 0.251, 0.251]:
+
+    for i in  [0.2501, 0.2501, 0.2501]:
+        seudo_altitud = random.uniform(float(altitudA), float(altitudC))
+        seudo_altitud2 = random.uniform(-0.05, 0.05)
+
         secondsA = float(secondsA)+i
         secondsB = str(secondsA)
         #si la longitud de los segundos es menor a 5 digitos se agrega un 0 para que guarde de manera correcta en el pos   NO 5.12 SI 05.12
         if len(secondsB) <= 5:
             secondsB = "0"+secondsB
-
         coordinatesA = str(eval(coordinatesA + sign + "(" + coordinatesB + ")"))
         coordinatesA1 = str(eval( coordinatesA1 + sign + "(" + coordinatesB1 + ")"))
-        altitudA = str(eval(altitudA + sign + "(" + altitudB + ")"))
+        altitudA = str(eval( str(seudo_altitud2) + "+" + str(seudo_altitud) + sign2 +  altitudB  ))
+
 
         # buffer_gtm[i] = buffer
         # print(buffer[0:17] + secondsB[0:2] + "." + secondsB[3:6] + buffer[23:25] + coordinatesB[0:13] + "  " + coordinatesB1[0:13] + "   " + altitudB[0:8] + buffer[64:142])
@@ -131,5 +142,4 @@ def data_process(buffer, buffer2 ,fsuperpos ):
         coordinatesA = coordinatesA
         coordinatesA1 = coordinatesA1
         altitudA = altitudA
-# fsuperpos.write(buffer2)
     
