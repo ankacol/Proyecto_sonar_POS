@@ -57,7 +57,7 @@ def abrir_archivo_pos():
 
 # Funcion que se activa al pulsar el boton de "Abrir archivo" para cargar el archivo de trayectorias
 def convertir_archivo_button():
-    get_pos(ruta_archivo_pos=ruta_archivo_pos,check= var1.get())
+    get_pos(ruta_archivo_pos=ruta_archivo_pos)
     info_message = "Los archivos han sido procesados correctamente"
     messagebox.showinfo(title="Exito!!!", message=info_message)
     
@@ -70,8 +70,6 @@ Button(text="Abrir archivo", bg="#eb7434", command = abrir_archivo_pos).place(x 
 
 Button(text="Convertir archivo", bg="#eb7434", command = convertir_archivo_button).place(x = 10, y = 205)
 
-var1 = IntVar()
-Checkbutton(text="archivo .pos procesado como backward",variable=var1, onvalue=1, offvalue=0,command = state_check).place(x = 10, y = 300)
 
 
 raiz.mainloop()

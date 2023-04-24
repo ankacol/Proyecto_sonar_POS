@@ -13,11 +13,11 @@ var1 = 0
 
 buffer_gtm = []
 
-def get_pos(ruta_archivo_pos, check):
+def get_pos(ruta_archivo_pos):
     ruta_salida = path.abspath(path.join(ruta_archivo_pos,".."))
     fsuperpos = open(ruta_salida + "/superpos.pos","w+")
     count = 0
-    check = check
+    # check = check
     
     secondsA = ""
     coordinatesA = ""
@@ -43,7 +43,6 @@ def get_pos(ruta_archivo_pos, check):
                     fsuperpos.write("%  GPST                  latitude(deg) longitude(deg)  height(m)   Q  ns   sdn(m)   sde(m)   sdu(m)  sdne(m)  sdeu(m)  sdun(m) age(s)  ratio\n")
                     buffer = "0"
                     while wait:
-                        if  check == 0:
                             # print("estoy en normal")
 
                             if buffer == "0":
@@ -58,21 +57,6 @@ def get_pos(ruta_archivo_pos, check):
                                 fsuperpos.write(buffer)
                                 wait = False
                             
-                        else:
-                            # print("estoy en reversed")
-                            lines = file_object.readlines()
-                            for buffer2 in reversed(lines):
-                                if buffer == "0":
-                                    buffer = file_object.readline()
-                                else:
-                                    buffer = buffer2
-                                buffer2= file_object.readline()
-                                if len(buffer2) != 0:
-                                    data_process(buffer, buffer2 ,fsuperpos )
-                                else:
-                                    fsuperpos.write(buffer)
-                                    wait = False
-                            wait = False
                 else:
                     if len(buffer) != 0:
                         fsuperpos.write(buffer)
